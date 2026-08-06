@@ -1,12 +1,13 @@
 package com.franquicias.api.domain.usecases.branch;
 
+import com.franquicias.api.domain.exception.DuplicateResourceException;
+import com.franquicias.api.domain.exception.ResourceNotFoundException;
 import com.franquicias.api.domain.model.Branch;
 import com.franquicias.api.domain.ports.in.BranchUseCase;
 import com.franquicias.api.domain.ports.out.BranchRepositoryPort;
 import com.franquicias.api.domain.ports.out.FranchiseRepositoryPort;
 
 import java.util.List;
-import java.util.Optional;
 
 public class BranchUseCaseImpl implements BranchUseCase {
 
@@ -25,14 +26,16 @@ public class BranchUseCaseImpl implements BranchUseCase {
     public Branch create(Branch branch) {
 
         if (!franchiseRepository.existsById(branch.getFranchiseId())) {
-            throw new IllegalArgumentException("Franchise not found.");
+            throw new ResourceNotFoundException(
+                    "Franchise with id " + branch.getFranchiseId() + " not found.");
         }
 
         if (branchRepository.existsByNameAndFranchiseId(
                 branch.getName(),
                 branch.getFranchiseId())) {
 
-            throw new IllegalArgumentException("The branch already exists.");
+            throw new DuplicateResourceException(
+                    "Branch '" + branch.getName() + "' already exists in the franchise.");
         }
 
         return branchRepository.save(branch);
@@ -42,7 +45,8 @@ public class BranchUseCaseImpl implements BranchUseCase {
     public Branch updateName(Long id, String name) {
 
         Branch branch = branchRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Branch not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Branch with id " + id + " not found."));
 
         branch.setName(name);
 
@@ -50,12 +54,22 @@ public class BranchUseCaseImpl implements BranchUseCase {
     }
 
     @Override
-    public Optional<Branch> findById(Long id) {
-        return branchRepository.findById(id);
+    public Branch findById(Long id) {
+
+        return branchRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Branch with id " + id + " not found."));
     }
 
     @Override
     public List<Branch> findByFranchise(Long franchiseId) {
+
+        if (!franchiseRepository.existsById(franchiseId)) {
+            throw new ResourceNotFoundException(
+                    "Franchise with id " + franchiseId + " not found.");
+        }
+
         return branchRepository.findByFranchiseId(franchiseId);
     }
+
 }

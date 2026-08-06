@@ -4,6 +4,7 @@ import com.franquicias.api.domain.model.Product;
 import com.franquicias.api.domain.ports.in.ProductUseCase;
 import com.franquicias.api.infrastructure.adapter.in.http.dto.product.CreateProductRequest;
 import com.franquicias.api.infrastructure.adapter.in.http.dto.product.ProductResponse;
+import com.franquicias.api.infrastructure.adapter.in.http.dto.product.UpdateProductNameRequest;
 import com.franquicias.api.infrastructure.adapter.in.http.dto.product.UpdateProductStockRequest;
 import com.franquicias.api.infrastructure.adapter.in.http.mapper.ProductHttpMapper;
 import jakarta.validation.Valid;
@@ -27,32 +28,41 @@ public class ProductController {
         Product product = mapper.toDomain(request);
 
         return mapper.toResponse(
-                productUseCase.create(product)
-        );
+                productUseCase.create(product));
     }
 
-    @PatchMapping("/{id}/stock")
+    @PutMapping("/{productId}/name")
+    public ProductResponse updateName(
+            @PathVariable Long productId,
+            @Valid @RequestBody UpdateProductNameRequest request) {
+
+        return mapper.toResponse(
+                productUseCase.updateName(productId, request.getName()));
+    }
+
+    @PatchMapping("/{productId}/stock")
     public ProductResponse updateStock(
-            @PathVariable Long id,
+            @PathVariable Long productId,
             @Valid @RequestBody UpdateProductStockRequest request) {
 
         return mapper.toResponse(
-                productUseCase.updateStock(id, request.getStock())
-        );
+                productUseCase.updateStock(productId, request.getStock()));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        productUseCase.delete(id);
+    public void delete(
+            @PathVariable Long productId) {
+
+        productUseCase.delete(productId);
     }
 
-    @GetMapping("/{id}")
-    public ProductResponse findById(@PathVariable Long id) {
+    @GetMapping("/{productId}")
+    public ProductResponse findById(
+            @PathVariable Long productId) {
 
-        return productUseCase.findById(id)
-                .map(mapper::toResponse)
-                .orElseThrow();
+        return mapper.toResponse(
+                productUseCase.findById(productId));
     }
 
 }

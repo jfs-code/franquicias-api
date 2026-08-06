@@ -28,9 +28,7 @@ public class BranchRepositoryAdapter implements BranchRepositoryPort {
 
         return mapper.toDomain(
                 repository.save(
-                        mapper.toEntity(branch)
-                )
-        );
+                        mapper.toEntity(branch)));
     }
 
     @Override

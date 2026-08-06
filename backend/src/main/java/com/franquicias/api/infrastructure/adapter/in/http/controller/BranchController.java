@@ -1,10 +1,13 @@
 package com.franquicias.api.infrastructure.adapter.in.http.controller;
 
 import com.franquicias.api.domain.ports.in.BranchUseCase;
+import com.franquicias.api.domain.ports.in.ProductUseCase;
 import com.franquicias.api.infrastructure.adapter.in.http.dto.branch.BranchResponse;
 import com.franquicias.api.infrastructure.adapter.in.http.dto.branch.CreateBranchRequest;
 import com.franquicias.api.infrastructure.adapter.in.http.dto.branch.UpdateBranchRequest;
+import com.franquicias.api.infrastructure.adapter.in.http.dto.product.ProductResponse;
 import com.franquicias.api.infrastructure.adapter.in.http.mapper.BranchHttpMapper;
+import com.franquicias.api.infrastructure.adapter.in.http.mapper.ProductHttpMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,47 +20,47 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BranchController {
 
-    private final BranchUseCase branchUseCase;
-    private final BranchHttpMapper mapper;
+        private final BranchUseCase branchUseCase;
+        private final ProductUseCase productUseCase;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public BranchResponse create(
-            @Valid @RequestBody CreateBranchRequest request) {
+        private final BranchHttpMapper branchMapper;
+        private final ProductHttpMapper productMapper;
 
-        return mapper.toResponse(
-                branchUseCase.create(
-                        mapper.toDomain(request)
-                )
-        );
-    }
+        @PostMapping
+        @ResponseStatus(HttpStatus.CREATED)
+        public BranchResponse create(
+                        @Valid @RequestBody CreateBranchRequest request) {
 
-    @PutMapping("/{id}/name")
-    public BranchResponse updateName(
-            @PathVariable Long id,
-            @Valid @RequestBody UpdateBranchRequest request) {
+                return branchMapper.toResponse(
+                                branchUseCase.create(
+                                                branchMapper.toDomain(request)));
+        }
 
-        return mapper.toResponse(
-                branchUseCase.updateName(id, request.getName())
-        );
-    }
+        @PutMapping("/{branchId}/name")
+        public BranchResponse updateName(
+                        @PathVariable Long branchId,
+                        @Valid @RequestBody UpdateBranchRequest request) {
 
-    @GetMapping("/{id}")
-    public BranchResponse findById(@PathVariable Long id) {
+                return branchMapper.toResponse(
+                                branchUseCase.updateName(branchId, request.getName()));
+        }
 
-        return branchUseCase.findById(id)
-                .map(mapper::toResponse)
-                .orElseThrow();
-    }
+        @GetMapping("/{branchId}")
+        public BranchResponse findById(
+                        @PathVariable Long branchId) {
 
-    @GetMapping("/franchise/{franchiseId}")
-    public List<BranchResponse> findByFranchise(
-            @PathVariable Long franchiseId) {
+                return branchMapper.toResponse(
+                                branchUseCase.findById(branchId));
+        }
 
-        return branchUseCase.findByFranchise(franchiseId)
-                .stream()
-                .map(mapper::toResponse)
-                .toList();
-    }
+        @GetMapping("/{branchId}/products")
+        public List<ProductResponse> findProducts(
+                        @PathVariable Long branchId) {
+
+                return productUseCase.findByBranch(branchId)
+                                .stream()
+                                .map(productMapper::toResponse)
+                                .toList();
+        }
 
 }

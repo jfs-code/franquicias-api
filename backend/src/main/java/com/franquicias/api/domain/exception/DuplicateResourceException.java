@@ -1,4 +1,4 @@
-package com.franquicias.api.infrastructure.exception;
+package com.franquicias.api.domain.exception;
 
 public class DuplicateResourceException extends BusinessException {
 

@@ -28,9 +28,7 @@ public class FranchiseRepositoryAdapter implements FranchiseRepositoryPort {
 
         return mapper.toDomain(
                 repository.save(
-                        mapper.toEntity(franchise)
-                )
-        );
+                        mapper.toEntity(franchise)));
     }
 
     @Override

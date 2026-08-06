@@ -1,4 +1,4 @@
-package com.franquicias.api.infrastructure.common;
+package com.franquicias.api.infrastructure.adapter.in.http.dto;
 
 import lombok.Builder;
 import lombok.Getter;

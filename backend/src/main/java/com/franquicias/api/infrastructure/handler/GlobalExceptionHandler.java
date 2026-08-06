@@ -1,10 +1,13 @@
 package com.franquicias.api.infrastructure.handler;
 
-import com.franquicias.api.infrastructure.common.ApiError;
-import com.franquicias.api.infrastructure.exception.DuplicateResourceException;
-import com.franquicias.api.infrastructure.exception.ResourceNotFoundException;
-import com.franquicias.api.infrastructure.exception.ValidationException;
+import com.franquicias.api.domain.exception.DuplicateResourceException;
+import com.franquicias.api.domain.exception.ResourceNotFoundException;
+import com.franquicias.api.domain.exception.ValidationException;
+import com.franquicias.api.infrastructure.adapter.in.http.dto.ApiError;
+
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -103,6 +106,22 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrityViolation(
+            DataIntegrityViolationException ex,
+            HttpServletRequest request) {
+
+        ApiError error = ApiError.builder()
+                 .timestamp(LocalDateTime.now())
+                 .status(HttpStatus.CONFLICT.value())
+                 .error(HttpStatus.CONFLICT.getReasonPhrase())
+                 .message("The resource already exists.")
+                 .path(request.getRequestURI())
+                 .build();
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
 }

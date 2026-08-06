@@ -18,37 +18,34 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RepositoryConfig {
 
-    @Bean
-    public FranchiseRepositoryPort franchiseRepositoryPort(
-            JpaFranchiseRepository repository,
-            FranchiseMapper mapper) {
+        @Bean
+        public FranchiseRepositoryPort franchiseRepositoryPort(
+                        JpaFranchiseRepository repository,
+                        FranchiseMapper mapper) {
 
-        return new FranchiseRepositoryAdapter(
-                repository,
-                mapper
-        );
-    }
+                return new FranchiseRepositoryAdapter(
+                                repository,
+                                mapper);
+        }
 
-    @Bean
-    public BranchRepositoryPort branchRepositoryPort(
-            JpaBranchRepository repository,
-            BranchMapper mapper) {
+        @Bean
+        public BranchRepositoryPort branchRepositoryPort(
+                        JpaBranchRepository repository,
+                        BranchMapper mapper) {
 
-        return new BranchRepositoryAdapter(
-                repository,
-                mapper
-        );
-    }
+                return new BranchRepositoryAdapter(
+                                repository,
+                                mapper);
+        }
 
-    @Bean
-    public ProductRepositoryPort productRepositoryPort(
-            JpaProductRepository repository,
-            ProductMapper mapper) {
+        @Bean
+        public ProductRepositoryPort productRepositoryPort(
+                        JpaProductRepository repository,
+                        ProductMapper mapper) {
 
-        return new ProductRepositoryAdapter(
-                repository,
-                mapper
-        );
-    }
+                return new ProductRepositoryAdapter(
+                                repository,
+                                mapper);
+        }
 
 }

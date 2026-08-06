@@ -1,0 +1,206 @@
+{
+  "info": {
+    "name": "Franquicias API",
+    "_postman_id": "8f7bdbb3-bb7e-4d8a-90b0-000000000001",
+    "description": "Colección de endpoints para la API de Gestión de Franquicias.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api"
+    }
+  ],
+  "item": [
+    {
+      "name": "Franchises",
+      "item": [
+        {
+          "name": "Create Franchise",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/franchises",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Franquicia Bogotá\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Franchise By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/franchises/1"
+          }
+        },
+        {
+          "name": "Get All Franchises",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/franchises"
+          }
+        },
+        {
+          "name": "Update Franchise Name",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/franchises/1/name",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Franquicia Medellín\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Branches By Franchise",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/franchises/1/branches"
+          }
+        },
+        {
+          "name": "Top Stock Products By Franchise",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/franchises/1/top-stock-products"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Branches",
+      "item": [
+        {
+          "name": "Create Branch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/branches",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sucursal Centro\",\n  \"franchiseId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Branch By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/branches/1"
+          }
+        },
+        {
+          "name": "Update Branch Name",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/branches/1/name",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sucursal Norte\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Products By Branch",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/branches/1/products"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Coca Cola\",\n  \"stock\": 120,\n  \"branchId\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Product By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/products/1"
+          }
+        },
+        {
+          "name": "Update Product Stock",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/1/stock",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stock\": 250\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Product Name",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/products/1/name",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Monitor Samsung 32\\\"\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/products/1"
+          }
+        }
+      ]
+    }
+  ]
+}

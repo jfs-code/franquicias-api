@@ -29,19 +29,19 @@ public class UseCaseConfig {
 
         return new BranchUseCaseImpl(
                 branchRepositoryPort,
-                franchiseRepositoryPort
-        );
+                franchiseRepositoryPort);
     }
 
     @Bean
     public ProductUseCase productUseCase(
             ProductRepositoryPort productRepositoryPort,
-            BranchRepositoryPort branchRepositoryPort) {
+            BranchRepositoryPort branchRepositoryPort,
+            FranchiseRepositoryPort franchiseRepositoryPort) {
 
         return new ProductUseCaseImpl(
                 productRepositoryPort,
-                branchRepositoryPort
-        );
+                branchRepositoryPort,
+                franchiseRepositoryPort);
     }
 
 }

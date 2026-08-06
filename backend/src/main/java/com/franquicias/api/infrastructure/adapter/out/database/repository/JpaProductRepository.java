@@ -9,20 +9,20 @@ import java.util.List;
 
 public interface JpaProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    List<ProductEntity> findByBranchId(Long branchId);
+      List<ProductEntity> findByBranchId(Long branchId);
 
-    boolean existsByNameAndBranchId(String name, Long branchId);
+      boolean existsByNameAndBranchId(String name, Long branchId);
 
-    @Query("""
-        SELECT p
-        FROM ProductEntity p
-        WHERE p.branch.franchise.id = :franchiseId
-          AND p.stock = (
-                SELECT MAX(p2.stock)
-                FROM ProductEntity p2
-                WHERE p2.branch.id = p.branch.id
-          )
-    """)
-    List<ProductEntity> findTopStockProductsByFranchise(
-            @Param("franchiseId") Long franchiseId);
+      @Query("""
+                      SELECT p
+                      FROM ProductEntity p
+                      WHERE p.branch.franchise.id = :franchiseId
+                        AND p.stock = (
+                              SELECT MAX(p2.stock)
+                              FROM ProductEntity p2
+                              WHERE p2.branch.id = p.branch.id
+                        )
+                  """)
+      List<ProductEntity> findTopStockProductsByFranchise(
+                  @Param("franchiseId") Long franchiseId);
 }

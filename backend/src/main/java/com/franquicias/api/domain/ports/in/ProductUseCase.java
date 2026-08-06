@@ -3,7 +3,6 @@ package com.franquicias.api.domain.ports.in;
 import com.franquicias.api.domain.model.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductUseCase {
 
@@ -13,7 +12,9 @@ public interface ProductUseCase {
 
     void delete(Long id);
 
-    Optional<Product> findById(Long id);
+    Product findById(Long id);
+
+    Product updateName(Long id, String name);
 
     List<Product> findByBranch(Long branchId);
 

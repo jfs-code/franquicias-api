@@ -22,12 +22,7 @@ public class FranchiseEntity {
     @Column(nullable = false, unique = true, length = 100)
     private String name;
 
-    @OneToMany(
-            mappedBy = "franchise",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
+    @OneToMany(mappedBy = "franchise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<BranchEntity> branches = new ArrayList<>();
 
