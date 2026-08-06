@@ -1,8 +1,23 @@
 # Franquicias API
 
-API REST desarrollada en **Spring Boot** para la gestión de franquicias, sucursales y productos.
+API REST desarrollada con **Spring Boot** para la administración de **franquicias, sucursales y productos**.
 
-El proyecto fue desarrollado siguiendo una arquitectura basada en **Ports & Adapters (Arquitectura Hexagonal)**, utilizando MySQL como base de datos, Flyway para el versionamiento del esquema y Docker para la persistencia.
+La solución implementa una **Arquitectura Hexagonal (Ports & Adapters)**, separando la lógica de negocio de la infraestructura para facilitar el mantenimiento, la escalabilidad y las pruebas.
+
+La persistencia se realiza sobre **MySQL**, utilizando **Flyway** para el versionamiento de la base de datos y **Docker Compose** para levantar el entorno local.
+
+---
+
+# Características
+
+- Gestión de franquicias.
+- Gestión de sucursales.
+- Gestión de productos.
+- Manejo centralizado de excepciones.
+- Validaciones mediante Bean Validation.
+- Migraciones automáticas con Flyway.
+- Persistencia en MySQL.
+- Base de datos ejecutándose mediante Docker.
 
 ---
 
@@ -16,14 +31,13 @@ El proyecto fue desarrollado siguiendo una arquitectura basada en **Ports & Adap
 - Flyway
 - Docker & Docker Compose
 - Maven
-- Terraform
 - Postman
 
 ---
 
 # Arquitectura
 
-El proyecto sigue una arquitectura hexagonal separando claramente el dominio de la infraestructura.
+El proyecto sigue una **Arquitectura Hexagonal (Ports & Adapters)**.
 
 ```
 backend
@@ -46,46 +60,51 @@ backend
     └── db/migration
 ```
 
+La lógica de negocio permanece aislada de la infraestructura mediante el uso de puertos e implementaciones.
+
 ---
 
 # Funcionalidades
 
 ## Franquicias
 
-- Crear franquicia
-- Consultar franquicia
-- Listar franquicias
-- Actualizar nombre
+- Crear una franquicia.
+- Consultar una franquicia por identificador.
+- Consultar todas las franquicias.
+- Actualizar el nombre de una franquicia.
+- Obtener las sucursales pertenecientes a una franquicia.
+- Obtener el producto con mayor stock por sucursal para una franquicia.
 
 ## Sucursales
 
-- Crear sucursal
-- Consultar sucursal
-- Listar sucursales por franquicia
-- Actualizar nombre
+- Crear una sucursal.
+- Consultar una sucursal.
+- Consultar todas las sucursales de una franquicia.
+- Actualizar el nombre de una sucursal.
 
 ## Productos
 
-- Crear producto
-- Consultar producto
-- Eliminar producto
-- Actualizar stock
-- Actualizar nombre
-- Consultar producto con mayor stock por sucursal para una franquicia
+- Crear un producto.
+- Consultar un producto.
+- Actualizar el nombre del producto.
+- Actualizar el stock del producto.
+- Eliminar un producto.
 
 ---
 
 # Base de datos
 
-La aplicación utiliza **MySQL**.
+La aplicación utiliza **MySQL 8** como motor de base de datos.
 
-Las migraciones son administradas mediante **Flyway**.
+El esquema y los datos iniciales son administrados mediante **Flyway**, ejecutándose automáticamente al iniciar la aplicación.
+
+Las migraciones se encuentran en:
 
 ```
 backend/src/main/resources/db/migration
 ```
 
-Las tablas creadas son:
+Tablas creadas:
 
 - franchise
 - branch
@@ -109,7 +128,7 @@ SPRING_DATASOURCE_PASSWORD=root
 
 # Ejecución con Docker
 
-Desde la carpeta:
+Ubicarse en la carpeta:
 
 ```
 docker/
@@ -121,15 +140,25 @@ Ejecutar:
 docker compose up -d
 ```
 
-Verificar el contenedor:
+Verificar que el contenedor se encuentre en ejecución:
 
 ```bash
 docker ps
 ```
 
+Esto iniciará:
+
+- MySQL 8
+- Volumen persistente para la base de datos
+
 ---
 
 # Ejecución del Backend
+
+## Requisitos
+
+- Java 17
+- Maven Wrapper
 
 Ubicarse en:
 
@@ -143,7 +172,7 @@ Ejecutar:
 ./mvnw spring-boot:run
 ```
 
-o desde Visual Studio Code utilizando **Run**.
+También puede ejecutarse directamente desde Visual Studio Code mediante la opción **Run**.
 
 ---
 
@@ -151,85 +180,123 @@ o desde Visual Studio Code utilizando **Run**.
 
 ## Franquicias
 
-| Método | Endpoint |
-|---------|----------|
-| POST | /api/franchises |
-| GET | /api/franchises |
-| GET | /api/franchises/{id} |
-| PUT | /api/franchises/{id}/name |
-| GET | /api/franchises/{id}/branches |
-| GET | /api/franchises/{id}/top-stock-products |
+| Método | Endpoint                                  | Descripción                                      |
+| ------ | ----------------------------------------- | ------------------------------------------------ |
+| POST   | `/api/franchises`                         | Crear franquicia                                 |
+| GET    | `/api/franchises`                         | Listar franquicias                               |
+| GET    | `/api/franchises/{id}`                    | Consultar franquicia                             |
+| PUT    | `/api/franchises/{id}/name`               | Actualizar nombre                                |
+| GET    | `/api/franchises/{id}/branches`           | Obtener sucursales de la franquicia              |
+| GET    | `/api/franchises/{id}/top-stock-products` | Obtener el producto con mayor stock por sucursal |
 
 ---
 
 ## Sucursales
 
-| Método | Endpoint |
-|---------|----------|
-| POST | /api/branches |
-| GET | /api/branches/{id} |
-| PUT | /api/branches/{id}/name |
+| Método | Endpoint                      | Descripción                      |
+| ------ | ----------------------------- | -------------------------------- |
+| POST   | `/api/branches`               | Crear sucursal                   |
+| GET    | `/api/branches/{id}`          | Consultar sucursal               |
+| PUT    | `/api/branches/{id}/name`     | Actualizar nombre                |
+| GET    | `/api/branches/{id}/products` | Obtener productos de la sucursal |
 
 ---
 
 ## Productos
 
-| Método | Endpoint |
-|---------|----------|
-| POST | /api/products |
-| GET | /api/products/{id} |
-| PUT | /api/products/{id}/name |
-| PATCH | /api/products/{id}/stock |
-| DELETE | /api/products/{id} |
+| Método | Endpoint                   | Descripción        |
+| ------ | -------------------------- | ------------------ |
+| POST   | `/api/products`            | Crear producto     |
+| GET    | `/api/products/{id}`       | Consultar producto |
+| PUT    | `/api/products/{id}/name`  | Actualizar nombre  |
+| PATCH  | `/api/products/{id}/stock` | Actualizar stock   |
+| DELETE | `/api/products/{id}`       | Eliminar producto  |
 
 ---
 
-# Validaciones
+# Manejo de errores
 
-La API valida automáticamente:
+La API implementa un manejo centralizado de excepciones, retornando respuestas consistentes para errores de negocio y validaciones.
 
-- Campos obligatorios
-- Longitud máxima de nombres
-- Recursos inexistentes
-- Recursos duplicados
+Se controlan escenarios como:
 
-Respuestas HTTP utilizadas:
+- Recursos inexistentes.
+- Recursos duplicados.
+- Campos obligatorios.
+- Longitud máxima de nombres.
+- Validaciones de entrada.
 
-| Código | Descripción |
-|---------|-------------|
-| 200 | OK |
-| 201 | Created |
-| 204 | No Content |
-| 400 | Bad Request |
-| 404 | Resource Not Found |
-| 409 | Duplicate Resource |
-| 500 | Internal Server Error |
+## Códigos HTTP
+
+| Código | Descripción           |
+| ------ | --------------------- |
+| 200    | OK                    |
+| 201    | Created               |
+| 204    | No Content            |
+| 400    | Bad Request           |
+| 404    | Resource Not Found    |
+| 409    | Conflict              |
+| 500    | Internal Server Error |
+
+### Ejemplo de respuesta de error
+
+```json
+{
+  "timestamp": "2026-08-06T12:30:25",
+  "status": 404,
+  "error": "Not Found",
+  "message": "Franchise with id 100 not found.",
+  "path": "/api/franchises/100"
+}
+```
 
 ---
 
 # Colección Postman
 
-En la carpeta:
+La colección de Postman incluida en el proyecto contiene todos los endpoints necesarios para probar la API.
+
+Ubicación:
 
 ```
 postman/
 ```
 
-se encuentra la colección completa para probar todos los endpoints de la API.
+Configurar la variable:
+
+| Variable | Valor                     |
+| -------- | ------------------------- |
+| baseUrl  | http://localhost:8080/api |
 
 ---
 
-# Docker
+# Consideraciones
 
-La base de datos MySQL se ejecuta mediante Docker Compose.
-
-Persistencia mediante volumen Docker.
+- La base de datos es creada automáticamente mediante Flyway.
+- Se incluyen datos iniciales para facilitar las pruebas.
+- La aplicación implementa Arquitectura Hexagonal.
+- El acceso a datos se realiza mediante Spring Data JPA.
+- La validación de solicitudes se realiza mediante Bean Validation.
+- Docker se utiliza únicamente para la base de datos.
 
 ---
 
 # Autor
 
-**Jaime Flórez Saldaña** - **Ingeniero de Software**
+**Jaime Flórez Saldaña**
 
-- GitHub: https://github.com/jfs-code
-- LinkedIn: https://www.linkedin.com/in/jaimeflorezsaldana/
+Ingeniero de Software
+
+GitHub:
+
+- https://github.com/jfs-code
+
+LinkedIn:
+
+- https://www.linkedin.com/in/jaimeflorezsaldana/
+
+---
+
+# Licencia
+
+Este proyecto fue desarrollado como solución a una prueba técnica y tiene fines exclusivamente demostrativos.
