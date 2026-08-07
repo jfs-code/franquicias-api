@@ -17,52 +17,51 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductUseCase productUseCase;
-    private final ProductHttpMapper mapper;
+        private final ProductUseCase productUseCase;
+        private final ProductHttpMapper mapper;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProductResponse create(
-            @Valid @RequestBody CreateProductRequest request) {
+        @PostMapping
+        @ResponseStatus(HttpStatus.CREATED)
+        public ProductResponse create(
+                        @Valid @RequestBody CreateProductRequest request) {
 
-        Product product = mapper.toDomain(request);
+                Product product = mapper.toDomain(request);
 
-        return mapper.toResponse(
-                productUseCase.create(product));
-    }
+                return mapper.toResponse(
+                                productUseCase.create(product));
+        }
 
-    @PutMapping("/{productId}/name")
-    public ProductResponse updateName(
-            @PathVariable Long productId,
-            @Valid @RequestBody UpdateProductNameRequest request) {
+        @PutMapping("/{productId}/name")
+        public ProductResponse updateName(
+                        @PathVariable Long productId,
+                        @Valid @RequestBody UpdateProductNameRequest request) {
 
-        return mapper.toResponse(
-                productUseCase.updateName(productId, request.getName()));
-    }
+                return mapper.toResponse(
+                                productUseCase.updateName(productId, request.getName()));
+        }
 
-    @PatchMapping("/{productId}/stock")
-    public ProductResponse updateStock(
-            @PathVariable Long productId,
-            @Valid @RequestBody UpdateProductStockRequest request) {
+        @PatchMapping("/{productId}/stock")
+        public ProductResponse updateStock(
+                        @PathVariable Long productId,
+                        @Valid @RequestBody UpdateProductStockRequest request) {
 
-        return mapper.toResponse(
-                productUseCase.updateStock(productId, request.getStock()));
-    }
+                return mapper.toResponse(
+                                productUseCase.updateStock(productId, request.getStock()));
+        }
 
-    @DeleteMapping("/{productId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(
-            @PathVariable Long productId) {
+        @DeleteMapping("/{productId}")
+        @ResponseStatus(HttpStatus.NO_CONTENT)
+        public void delete(
+                        @PathVariable Long productId) {
 
-        productUseCase.delete(productId);
-    }
+                productUseCase.delete(productId);
+        }
 
-    @GetMapping("/{productId}")
-    public ProductResponse findById(
-            @PathVariable Long productId) {
+        @GetMapping("/{productId}")
+        public ProductResponse findById(
+                        @PathVariable Long productId) {
 
-        return mapper.toResponse(
-                productUseCase.findById(productId));
-    }
-
+                return mapper.toResponse(
+                                productUseCase.findById(productId));
+        }
 }

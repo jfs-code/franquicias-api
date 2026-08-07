@@ -62,5 +62,4 @@ public class BranchController {
                                 .map(productMapper::toResponse)
                                 .toList();
         }
-
 }

@@ -35,5 +35,4 @@ public class BranchMapper {
                 .franchise(franchise)
                 .build();
     }
-
 }

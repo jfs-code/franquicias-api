@@ -37,5 +37,4 @@ public class ProductMapper {
                 .branch(branch)
                 .build();
     }
-
 }

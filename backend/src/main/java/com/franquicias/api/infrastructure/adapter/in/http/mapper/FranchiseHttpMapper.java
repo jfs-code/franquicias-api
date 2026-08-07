@@ -41,5 +41,4 @@ public class FranchiseHttpMapper {
                 .name(franchise.getName())
                 .build();
     }
-
 }

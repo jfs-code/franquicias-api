@@ -44,5 +44,4 @@ public class BranchHttpMapper {
                 .franchiseId(branch.getFranchiseId())
                 .build();
     }
-
 }

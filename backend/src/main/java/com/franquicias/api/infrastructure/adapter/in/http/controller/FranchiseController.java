@@ -88,5 +88,4 @@ public class FranchiseController {
                                 .map(productMapper::toResponse)
                                 .toList();
         }
-
 }

@@ -71,5 +71,4 @@ public class BranchUseCaseImpl implements BranchUseCase {
 
         return branchRepository.findByFranchiseId(franchiseId);
     }
-
 }

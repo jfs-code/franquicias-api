@@ -28,5 +28,4 @@ public class FranchiseMapper {
                 .name(domain.getName())
                 .build();
     }
-
 }

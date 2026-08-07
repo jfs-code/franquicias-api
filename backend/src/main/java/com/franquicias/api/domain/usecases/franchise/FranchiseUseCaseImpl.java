@@ -31,18 +31,14 @@ public class FranchiseUseCaseImpl implements FranchiseUseCase {
     public Franchise updateName(Long id, String name) {
 
         Franchise franchise = franchiseRepository.findById(id)
-        .orElseThrow(() ->
-                new ResourceNotFoundException(
-                        "Franchise with id " + id + " not found."
-                )
-        );
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Franchise with id " + id + " not found."));
 
         if (!franchise.getName().equalsIgnoreCase(name)
                 && franchiseRepository.existsByName(name)) {
 
             throw new DuplicateResourceException(
-                    "Franchise '" + name + "' already exists."
-            );
+                    "Franchise '" + name + "' already exists.");
         }
 
         franchise.setName(name);
@@ -62,5 +58,4 @@ public class FranchiseUseCaseImpl implements FranchiseUseCase {
     public List<Franchise> findAll() {
         return franchiseRepository.findAll();
     }
-
 }
